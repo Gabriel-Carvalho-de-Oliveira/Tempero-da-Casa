@@ -1,3 +1,5 @@
+Sistema de Pedidos - Gabriel Carvalho de Oliveira (SP3201007)
+
 Tempero da Casa
 
 - Sistema de pedidos de restaurante feito com HTML, CSS e JavaScript.
