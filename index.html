@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Confira o cardápio do Tempero da Casa e monte seu pedido.">
+  <title>Tempero da Casa | Cardápio</title>
+  <link rel="stylesheet" href="css/estilo.css">
+  <script src="js/modelos.js" defer></script>
+  <script src="js/repositorio.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <a class="pular-conteudo" href="#conteudo">Ir para o conteúdo</a>
+  <header class="cabecalho">
+    <a class="marca" href="index.html"><span class="simbolo" aria-hidden="true">TC</span><span>Tempero da Casa<small>Comida boa, feita com carinho.</small></span></a>
+    <nav aria-label="Menu principal">
+      <button type="button" class="nav-botao ativo" data-pagina="cardapio" aria-current="page">Cardápio</button>
+      <button type="button" class="nav-botao" data-pagina="gerenciar">Gerenciar cardápio</button>
+    </nav>
+  </header>
+  <main id="conteudo" tabindex="-1">
+    <section id="pagina-cardapio" aria-label="Cardápio e carrinho">
+      <section class="destaque" aria-roledescription="carrossel" aria-label="Pratos em destaque">
+        <div id="slide" aria-live="polite" aria-atomic="true"></div>
+        <div class="navegacao-slide">
+          <button type="button" id="slide-anterior" class="seta" aria-label="Prato anterior">←</button>
+          <span id="contador-slide"></span>
+          <button type="button" id="slide-proximo" class="seta" aria-label="Próximo prato">→</button>
+        </div>
+      </section>
+      <div class="layout-pedido">
+        <section aria-labelledby="titulo-cardapio">
+          <div class="titulo-secao"><div><p class="sobretitulo">ESCOLHA O SEU FAVORITO</p><h1 id="titulo-cardapio">Nosso cardápio</h1></div><span id="contagem-produtos" class="texto-suave"></span></div>
+          <div id="lista-produtos" class="grade-produtos"></div>
+        </section>
+        <aside class="painel-carrinho" aria-labelledby="titulo-carrinho">
+          <div class="titulo-secao"><h2 id="titulo-carrinho">Seu pedido</h2><span id="quantidade-carrinho" class="selo">0 itens</span></div>
+          <div id="itens-carrinho"></div>
+          <button type="button" id="limpar-carrinho" class="botao-texto">Limpar carrinho</button>
+          <form id="form-pedido">
+            <label>Como você quer receber?<select id="tipo-entrega"><option value="retirada">Retirada no restaurante</option><option value="local">Consumo no local</option><option value="delivery">Delivery</option></select></label>
+            <p id="aviso-taxa" class="ajuda">Retirada e consumo no local não têm taxa.</p>
+            <div class="resumo" aria-live="polite" aria-atomic="true"><div><span>Subtotal</span><span id="subtotal">R$ 0,00</span></div><div><span>Taxa de entrega</span><span id="taxa">R$ 0,00</span></div><div class="total"><strong>Total</strong><strong id="total">R$ 0,00</strong></div></div>
+            <label>Seu nome<input id="cliente-nome" name="nome" autocomplete="name" minlength="2" maxlength="80" required placeholder="Nome de quem vai receber"></label>
+            <label>Telefone<input id="cliente-telefone" name="telefone" type="tel" autocomplete="tel" maxlength="22" required placeholder="(11) 99999-9999"></label>
+            <label id="campo-endereco" hidden>Endereço de entrega<textarea id="cliente-endereco" name="endereco" autocomplete="street-address" minlength="5" maxlength="200" rows="2" placeholder="Rua, número e bairro"></textarea></label>
+            <button id="finalizar-pedido" class="botao principal largura-total" type="submit" disabled>Finalizar pedido</button>
+          </form>
+        </aside>
+      </div>
+    </section>
+    <section id="pagina-gerenciar" hidden aria-labelledby="titulo-gerenciar">
+      <div class="titulo-secao"><div><p class="sobretitulo">TUDO NO SEU LUGAR</p><h1 id="titulo-gerenciar">Gerenciar cardápio</h1></div><button type="button" id="novo-produto" class="botao principal">+ Novo produto</button></div>
+      <p class="texto-suave">Cadastre os pratos e mantenha os preços e as descrições atualizados.</p>
+      <div id="produtos-gerenciar" class="lista-gerenciar"></div>
+    </section>
+  </main>
+  <footer>Tempero da Casa <span>•</span> Um bom pedido começa por aqui.</footer>
+  <div id="mensagem" class="mensagem" role="status" aria-live="polite" hidden></div>
+  <dialog id="dialog-produto" aria-labelledby="titulo-produto">
+    <form id="form-produto">
+      <div class="titulo-secao"><h2 id="titulo-produto">Novo produto</h2><button type="button" class="botao-fechar" data-fechar="dialog-produto" aria-label="Fechar formulário">×</button></div>
+      <input id="produto-id" type="hidden">
+      <label>Nome<input id="produto-nome" minlength="2" maxlength="80" required></label>
+      <label>Descrição<textarea id="produto-descricao" maxlength="250" rows="3" required></textarea></label>
+      <div class="duas-colunas"><label>Preço (R$)<input id="produto-preco" type="number" min="0.01" max="9999.99" step="0.01" required></label><label>Categoria<select id="produto-categoria"><option>Marmita</option><option>Prato</option><option>Bebida</option><option>Sobremesa</option></select></label></div>
+      <label>Imagem<input id="produto-imagem" maxlength="1000" placeholder="https://..."></label>
+      <p class="ajuda">Use um link HTTPS. Se deixar vazio, será usada uma imagem da categoria.</p>
+      <div class="acoes-dialog"><button type="button" class="botao secundario" data-fechar="dialog-produto">Cancelar</button><button type="submit" class="botao principal">Salvar produto</button></div>
+    </form>
+  </dialog>
+  <dialog id="dialog-confirmar" aria-labelledby="titulo-confirmar" aria-describedby="texto-confirmar">
+    <h2 id="titulo-confirmar">Confirmar remoção</h2><p id="texto-confirmar"></p>
+    <div class="acoes-dialog"><button type="button" id="cancelar-acao" class="botao secundario" autofocus>Cancelar</button><button type="button" id="confirmar-acao" class="botao perigo">Confirmar</button></div>
+  </dialog>
+  <noscript>Ative o JavaScript no navegador para usar o cardápio e fazer pedidos.</noscript>
+</body>
+</html>
